@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilo.css">
+    <title>My Portfolio - Angie Designer UX/UI</title>
+</head>
+<body>
+
+    <div id="windows-desktop">
+        <div id="windows-taskbar">
+
+        
+            <div id="weather-info" class="taskbar-it">
+            <img id="weather-icon" src="iconos/sun.png" alt="Weather Icon">
+            <span id="weather-description">Soleado</span>
+            <span id="weather-location">Ciudad, País</span>
+            </div>
+                
+
+            <div class="taskbar-icon">
+
+            <div class="taski"><a href="https://www.figma.com/proto/KpLGhZwASLz2KahR5PQ3k5/My-portfolio?type=design&node-id=302-20&t=CYaPaGpbyoCJ9vcS-1&scaling=min-zoom&page-id=0%3A1"><img src="iconos/proyectos.png" alt="Mis Proyectos"></a></div>
+            <div class="taski"><a href="mailto:angiehuamansales@gmail.com"><img src="iconos/contacto.png" alt="Contacto"></a></div>
+            <div class="taski"><a href="https://drive.google.com/file/d/1Ig2FBD5Erohtuspgu_34uUYpC_M95GzL/view?usp=sharing"><img src="iconos/cv.png" alt="CV"></a></div>
+
+            </div>
+
+
+            <div class="taskbar-item">
+            
+            <div id="fecha-hora">Fecha y hora aquí</div>
+
+            </div>
+   
+
+        </div>
+
+
+        <div id="windows-icons" >
+            <div class="desktop-icon"><a href="https://www.figma.com/proto/KpLGhZwASLz2KahR5PQ3k5/My-portfolio?type=design&node-id=302-20&t=CYaPaGpbyoCJ9vcS-1&scaling=min-zoom&page-id=0%3A1"><img src="iconos/proyectos.png" alt="Mis Proyectos"></a>Projects</div>
+            <div class="desktop-icon"><a href="mailto:angiehuamansales@gmail.com"><img src="iconos/contacto.png" alt="Contacto"></a>Contact</div>
+            <div class="desktop-icon"><a href="https://drive.google.com/file/d/1Ig2FBD5Erohtuspgu_34uUYpC_M95GzL/view?usp=sharing"><img src="iconos/cv.png" alt="CV"></a>CV</div>
+            <div class="desktop-icon"><a href="https://www.linkedin.com/in/angie-katherine-huaman-sales-48a484262/" target="_blank"><img src="iconos/linkedin.png" alt="LinkedIn"></a>LinkedIn</div>
+            <div class="desktop-icon"><a href="https://github.com/AngieKHS" target="_blank"><img src="iconos/github.png" alt="GitHub"></a>GitHub</div>
+            <div id="fullscreen-icon" class="desktop-icon"><img src="iconos/fullscreen.png" alt="Fullscreen">Fullscreen</div>
+            
+        </div>
+    </div>
+
+    <script>
+        function actualizarFechaHora() {
+            const fechaHoraElement = document.getElementById('fecha-hora');
+            const ahora = new Date();
+            const opcionesFecha = { year: 'numeric', month: 'short', day: 'numeric' };
+            const opcionesHora = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+
+            const hora = ahora.toLocaleTimeString('en-EN', opcionesHora);
+            const fecha = ahora.toLocaleDateString('en-GB', opcionesFecha);
+            
+
+            fechaHoraElement.innerHTML = `${hora}<br>${fecha}`;
+        }
+        
+        // Actualiza la fecha y hora cada segundo
+        setInterval(actualizarFechaHora, 1000);
+        
+        // Llama a la función para mostrar la fecha y hora inicialmente
+        actualizarFechaHora();
+        </script>
+
+
+
+        <script>
+
+        const fullscreenIcon = document.getElementById('fullscreen-icon');
+
+
+
+        // Función para activar el modo de pantalla completa
+        function enterFullscreen() {
+            const documentElement = document.documentElement;
+           if (documentElement.requestFullscreen) {
+              documentElement.requestFullscreen();
+            } else if (documentElement.mozRequestFullScreen) {
+                documentElement.mozRequestFullScreen();
+            } else if (documentElement.webkitRequestFullscreen) {
+                documentElement.webkitRequestFullscreen();
+            }
+        }
+
+            // Función para salir del modo de pantalla completa
+            function exitFullscreen() {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+            }
+
+            // Manejar el clic en el ícono de pantalla completa
+            fullscreenIcon.addEventListener('click', () => {
+                if (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement) {
+                    // Si estamos en pantalla completa, salir de ella
+                    exitFullscreen();
+                } else {
+                    // Si no estamos en pantalla completa, entrar en ella
+                    enterFullscreen();
+                }
+            });
+
+        </script>
+
+
+
+        <script>
+
+        const apiKey = '6195baf463dba37fc3e50ca9f8628afd';
+        const weatherIconElement = document.getElementById('weather-icon');
+        const weatherDescriptionElement = document.getElementById('weather-description');
+        const weatherLocationElement = document.getElementById('weather-location');
+
+        // Función para obtener la ubicación del usuario
+        function obtenerUbicacion() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    // Obtener la latitud y longitud del usuario
+                    const latitud = position.coords.latitude;
+                    const longitud = position.coords.longitude;
+
+                    // Hacer una solicitud a una API de geolocalización inversa para obtener la ubicación
+                    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitud}&lon=${longitud}&format=json`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Extraer la ciudad y el país de los datos de geolocalización
+                            const ciudad = data.address.city || data.address.town || data.address.village || data.address.hamlet;
+                            const pais = data.address.country;
+
+                            // Actualizar el elemento HTML con la ubicación
+                            weatherLocationElement.textContent = `${ciudad}, ${pais}`;
+                        })
+                        .catch(error => {
+                            console.error('Error al obtener datos de ubicación:', error);
+                        });
+                });
+            } else {
+                console.error('La geolocalización no está disponible en este navegador.');
+            }
+        }
+
+        // Llamar a obtenerUbicacion() para obtener y mostrar la ubicación al cargar la página
+        obtenerUbicacion();
+
+        // Llamar a obtenerDatosClima() para obtener y mostrar el clima al cargar la página
+        obtenerDatosClima();
+
+        // Configurar una actualización periódica del clima (por ejemplo, cada 30 minutos)
+        setInterval(obtenerDatosClima, 30 * 60 * 1000); // 30 minutos
+
+
+        </script>
+        
+
+        
+</body>
+</html>
